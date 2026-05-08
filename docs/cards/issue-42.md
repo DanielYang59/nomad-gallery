@@ -8,7 +8,7 @@ methodology_type: "Experimental"
 description: "The Catalysis App allows researchers to explore heterogeneous catalysis datasets available in NOMAD through an interactive interface. Users can search and filter data by parameters such as reactants and products, synthesis method, catalyst form, and reaction conditions. The Catalysis App supports the exchange of catalysis data and lays important groundwork for future AI-driven analytics."
 submission_date: "2026-05-08"
 coauthors:
-  - "Hampus Näsatröm"
+  - "Hampus Näsström"
   - "Michael Götte"
   - "Lauri Himanen"
   - "Abdulrhman Moshanta"
@@ -25,4 +25,6 @@ keywords:
 entry_name: "NOMAD Catalysis App"
 entry_link: "https://nomad-lab.eu/prod/v1/gui/search/heterogeneouscatalyst"
 repo_link: "https://github.com/FAIRmat-NFDI/nomad-catalysis-plugin"
+funding_reference: "Deutsche Forschungsgemeinschaft (DFG) - Project 460197019"
+data_size: "2000 entries <"
 ---
