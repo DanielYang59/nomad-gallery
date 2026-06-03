@@ -28,7 +28,7 @@ coauthors:
   - "T. Jesper Jacobsson"
   - "José A. Márquez"
   - "Kevin Maik Jablonka"
-image_path: "<img width=\"980\" height=\"646\" alt=\"Image\" src=\"../assets/images/cards/perovskite-eln-workflow.png" />"
+image_path: "assets/images/cards/PERLA.png"
 entry_link: "https://nomad-lab.eu/prod/v1/staging/gui/search/perovskite-solar-cells-database"
 keywords:
   - "Perovskites"
