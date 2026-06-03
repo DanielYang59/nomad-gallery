@@ -12,15 +12,12 @@ coauthors:
   - "Hampus Näsström"
   - "Jose Pizarro Blanco"
 image_path: "assets/images/cards/battery-database.png"
+publication_reference: "https://www.nature.com/articles/s41597-020-00602-2"
 keywords:
   - "Battery database"
-  - "NOMAD app"
   - "ChemDataExtractor"
   - "Literature mining"
   - "Materials informatics"
-  - "Capacity"
-  - "Voltage"
-  - "Conductivity"
   - "Energy density"
 entry_name: "Battery Database: Literature-mined Battery Properties with Searchable Visualization"
 nomad_resource_links:
