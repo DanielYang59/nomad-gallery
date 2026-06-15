@@ -1,171 +1,229 @@
 # nomad-gallery
 
-A mkdocs-based GitHub Pages site for showcasing NOMAD features, examples, and use cases.
+`nomad-gallery` is the source repository for the NOMAD Gallery website: a MkDocs-based site for showcasing NOMAD apps, datasets, workflows, and community use cases.
 
-This `nomad` plugin was generated with `Cookiecutter` along with `@nomad`'s [`cookiecutter-nomad-plugin`](https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin) template.
+This repository is only partly a standard NOMAD plugin repository. The Python package skeleton is still present, but the day-to-day maintenance work is mostly in the documentation content and the GitHub submission workflow.
 
+## What lives where
 
-## Development
+The main repository areas are:
 
-If you want to develop locally this plugin, clone the project and in the plugin folder, create a virtual environment (you can use Python 3.9, 3.10, or 3.11):
+- `docs/index.md`
+  The homepage. This includes the top featured carousel and the main gallery section.
+- `docs/cards/`
+  Regular gallery cards shown in the main gallery grid.
+- `docs/special_cards/`
+  Hand-picked cards used in the featured carousel at the top of the homepage.
+- `docs/assets/`
+  Local images and other static assets used by cards and pages.
+- `.github/ISSUE_TEMPLATE/submission.yml`
+  The public GitHub submission form.
+- `.github/workflows/create-submission.yml`
+  The automation that converts approved submissions into markdown card files and opens a PR.
+- `main.py`
+  MkDocs macros and card-rendering logic.
+- `site/`
+  Generated site output. This is build output, not the primary source of truth for content edits.
+
+## How the normal submission flow works
+
+Most new gallery entries should go through the GitHub submission process rather than being added manually.
+
+### 1. A user submits through the GitHub issue form
+
+The form is defined in `.github/ISSUE_TEMPLATE/submission.yml`.
+
+It collects:
+
+- submitter and affiliation
+- title, description, research field, methodology, and technique
+- image URL
+- contributors and keywords
+- NOMAD resource links
+- publication, repository, funding, and media references
+- optional metrics such as data size, active users, and downloads
+
+### 2. A maintainer reviews the issue
+
+When a submission is complete, add the label:
+
+- `submission-approved`
+
+### 3. GitHub Actions generates the card PR
+
+The workflow in `.github/workflows/create-submission.yml`:
+
+- parses the issue form
+- normalizes the submitted fields
+- writes a markdown card under `docs/cards/issue-<number>.md`
+- opens a PR on a `submission/issue-<number>` branch
+
+### 4. A maintainer updates the generated PR if needed
+
+Typical follow-up edits include:
+
+- uploading the image into the repository and replacing the temporary external image URL
+- fixing wording, formatting, or metadata
+- cleaning up references and contributors
+
+### 5. The PR is merged
+
+After checks pass, merge the PR. The card then becomes part of the gallery.
+
+## Manual card editing
+
+Manual edits are still useful for:
+
+- fixing existing cards
+- curating older entries
+- removing outdated or placeholder cards
+- maintaining the featured carousel
+
+For regular gallery entries, edit files in `docs/cards/`.
+
+For images stored in the repository, prefer a stable local asset path under `docs/assets/` or a subdirectory inside it.
+
+## Featured carousel at the top of the homepage
+
+The top carousel is curated manually. It is not automatically derived from `docs/cards/`.
+
+The relevant files are:
+
+- `docs/index.md`
+- `docs/special_cards/*.md`
+- `main.py` via `render_featured_rotator_card(...)`
+
+### How to update the featured carousel
+
+1. Create or update a markdown file in `docs/special_cards/`.
+2. Open `docs/index.md` and find the `featured-rotator__slides-template` block.
+3. Add or remove the corresponding `render_featured_rotator_card(...)` entry there.
+4. In the same file, update the `featured-rotator__dots` block so the number of dots matches the number of slides.
+5. Verify that the slide image renders correctly and that the “View in Gallery” button points to the intended main gallery card.
+
+The two places you usually need to edit in `docs/index.md` are:
+
+```html
+<div class="featured-rotator__dots">
+  <button class="featured-rotator__dot is-active" type="button" aria-label="Go to slide 1"></button>
+  <button class="featured-rotator__dot" type="button" aria-label="Go to slide 2"></button>
+</div>
+```
+
+and:
+
+```jinja
+<template class="featured-rotator__slides-template">
+  <div class="featured-rotator__slide-source">
+    {{ render_featured_rotator_card("special_cards/perovskite_database.md", index=1) }}
+  </div>
+</template>
+```
+
+To add another featured card, add another `featured-rotator__slide-source` block and a matching dot button.
+
+### Important implementation details
+
+#### The slide list is manual
+
+The featured slides are declared explicitly in `docs/index.md` inside the `featured-rotator__slides-template` block.
+
+For example:
+
+```jinja
+<div class="featured-rotator__slide-source">
+  {{ render_featured_rotator_card("special_cards/perovskite_database.md", index=1) }}
+</div>
+```
+
+Adding a file to `docs/special_cards/` alone does not make it appear in the carousel.
+
+#### The dot count is also manual
+
+The buttons in the `featured-rotator__dots` block are not generated automatically.
+
+For example:
+
+```html
+<div class="featured-rotator__dots">
+  <button class="featured-rotator__dot is-active" type="button" aria-label="Go to slide 1"></button>
+  <button class="featured-rotator__dot" type="button" aria-label="Go to slide 2"></button>
+</div>
+```
+
+If you add or remove a slide, update the dot buttons as well.
+
+#### Special-card filenames should match the regular card slug
+
+The carousel’s “View in Gallery” button derives its target from the `docs/special_cards/<name>.md` filename.
+
+In practice, a special card should usually have a matching regular card such as:
+
+- `docs/special_cards/perovskite_database.md`
+- `docs/cards/perovskite_database.md`
+
+If the filenames do not align, the button may not jump to the intended card in the main gallery.
+
+#### Only part of the metadata is used by the top carousel card
+
+The featured-card renderer mainly uses:
+
+- `title`
+- `research_field`
+- `image_path`
+- `image_name`
+
+Other metadata can still be stored in the file for consistency, but it is not all shown in the compact carousel card itself.
+
+## Local development
+
+Create and activate a virtual environment:
+
 ```sh
 git clone https://github.com/FAIRmat-NFDI/nomad-gallery.git
 cd nomad-gallery
 python3.11 -m venv .pyenv
 . .pyenv/bin/activate
-```
-
-Make sure to have `pip` upgraded:
-```sh
 pip install --upgrade pip
-```
-
-We recommend installing `uv` for fast pip installation of the packages:
-```sh
 pip install uv
 ```
 
-Install the `nomad-lab` package:
-```sh
-uv pip install '.[dev]' --index-url https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple
-```
+Install the package in editable mode:
 
-**Note!**
-Until we have an official pypi NOMAD release with the plugins functionality make
-sure to include NOMAD's internal package registry (via `--index-url` in the above command).
-
-The plugin is still under development. If you would like to contribute, install the package in editable mode (with the added `-e` flag):
 ```sh
 uv pip install -e '.[dev]' --index-url https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple
 ```
 
+Serve the docs locally:
 
-### Run the tests
+```sh
+mkdocs serve
+```
 
-You can run locally the tests:
+Run tests:
+
 ```sh
 python -m pytest -sv tests
 ```
 
-where the `-s` and `-v` options toggle the output verbosity.
+Run linting and formatting checks:
 
-Our CI/CD pipeline produces a more comprehensive test report using the `pytest-cov` package. You can generate a local coverage report:
-```sh
-uv pip install pytest-cov
-python -m pytest --cov=src tests
-```
-
-### Run linting and auto-formatting
-
-We use [Ruff](https://docs.astral.sh/ruff/) for linting and formatting the code. Ruff auto-formatting is also a part of the GitHub workflow actions. You can run locally:
 ```sh
 ruff check .
 ruff format . --check
 ```
 
+## Practical maintenance advice
 
-### Debugging
-
-For interactive debugging of the tests, use `pytest` with the `--pdb` flag. We recommend using an IDE for debugging, e.g., _VSCode_. If that is the case, add the following snippet to your `.vscode/launch.json`:
-```json
-{
-  "configurations": [
-      {
-        "name": "<descriptive tag>",
-        "type": "debugpy",
-        "request": "launch",
-        "cwd": "${workspaceFolder}",
-        "program": "${workspaceFolder}/.pyenv/bin/pytest",
-        "justMyCode": true,
-        "env": {
-            "_PYTEST_RAISE": "1"
-        },
-        "args": [
-            "-sv",
-            "--pdb",
-            "<path-to-plugin-tests>",
-        ]
-    }
-  ]
-}
-```
-
-where `<path-to-plugin-tests>` must be changed to the local path to the test module to be debugged.
-
-The settings configuration file `.vscode/settings.json` automatically applies the linting and formatting upon saving the modified file.
-
-
-### Documentation on Github pages
-
-To view the documentation locally, install the related packages using:
-```sh
-uv pip install -r requirements_docs.txt
-```
-
-Run the documentation server:
-```sh
-mkdocs serve
-```
-
-
-## Adding this plugin to NOMAD
-
-Currently, NOMAD has two distinct flavors that are relevant depending on your role as an user:
-1. [A NOMAD Oasis](#adding-this-plugin-in-your-nomad-oasis): any user with a NOMAD Oasis instance.
-2. [Local NOMAD installation and the source code of NOMAD](#adding-this-plugin-in-your-local-nomad-installation-and-the-source-code-of-nomad): internal developers.
-
-### Adding this plugin in your NOMAD Oasis
-
-Read the [NOMAD plugin documentation](https://nomad-lab.eu/prod/v1/staging/docs/howto/oasis/plugins_install.html) for all details on how to deploy the plugin on your NOMAD instance.
-
-### Adding this plugin in your local NOMAD installation and the source code of NOMAD
-
-Modify the text file under `/nomad/default_plugins.txt` and add:
-```sh
-<other-content-in-default_plugins.txt>
-nomad-gallery==x.y.z
-```
-where `x.y.z` represents the released version of this plugin.
-
-Then, go to your NOMAD folder, activate your NOMAD virtual environment and run:
-```sh
-deactivate
-cd <route-to-NOMAD-folder>/nomad
-source .pyenv/bin/activate
-./scripts/setup_dev_env.sh
-```
-
-Alternatively and only valid for your local NOMAD installation, you can modify `nomad.yaml` to include this plugin, see [NOMAD Oasis - Install plugins](https://nomad-lab.eu/prod/v1/staging/docs/howto/oasis/plugins_install.html).
-
-
-### Build the python package
-
-The `pyproject.toml` file contains everything that is necessary to turn the project
-into a pip installable python package. Run the python build tool to create a package distribution:
-
-```sh
-pip install build
-python -m build --sdist
-```
-
-You can install the package with pip:
-
-```sh
-pip install dist/nomad-gallery-0.0.0
-```
-
-Read more about python packages, `pyproject.toml`, and how to upload packages to PyPI
-on the [PyPI documentation](https://packaging.python.org/en/latest/tutorials/packaging-projects/).
-
-
-### Template update
-
-We use cruft to update the project based on template changes. A `cruft-update.yml` is included in Github workflows to automatically check for updates and create pull requests to apply updates. Follow the [instructions](https://github.blog/changelog/2022-05-03-github-actions-prevent-github-actions-from-creating-and-approving-pull-requests/) on how to enable Github Actions to create pull requests. 
-
-To run the check for updates locally, follow the instructions on [`cruft` website](https://cruft.github.io/cruft/#updating-a-project).
-
+- Treat `docs/` as the source of truth.
+- Treat `site/` as generated output unless you intentionally need to update built artifacts.
+- Prefer the GitHub submission flow for ordinary cards.
+- Reserve `docs/special_cards/` for manually curated featured entries.
+- When removing cards, also remove homepage references to them if they are featured.
+- When changing submission metadata semantics, check the issue form, workflow, template, and renderer together.
 
 ## Main contributors
-| Name | E-mail     |
-|------|------------|
-| Joseph Rudzinski | [joseph.rudzinski@physik.hu-berlin.de](mailto:joseph.rudzinski@physik.hu-berlin.de)
+
+| Name | E-mail |
+|------|--------|
+| Joseph Rudzinski | [joseph.rudzinski@physik.hu-berlin.de](mailto:joseph.rudzinski@physik.hu-berlin.de) |

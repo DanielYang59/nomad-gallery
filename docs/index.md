@@ -45,11 +45,18 @@ title: NOMAD Gallery | Home
   <div class="featured-rotator__dots">
     <button class="featured-rotator__dot is-active" type="button" aria-label="Go to slide 1"></button>
     <button class="featured-rotator__dot" type="button" aria-label="Go to slide 2"></button>
+    <button class="featured-rotator__dot" type="button" aria-label="Go to slide 3"></button>
   </div>
 
   <template class="featured-rotator__slides-template">
     <div class="featured-rotator__slide-source">
-      {{ render_featured_rotator_card("special_cards/perovskite_database.md", index=1) }}
+      {{ render_featured_rotator_card("special_cards/issue-62.md", index=0) }}
+    </div>
+    <div class="featured-rotator__slide-source">
+      {{ render_featured_rotator_card("special_cards/issue-42.md", index=1) }}
+    </div>
+    <div class="featured-rotator__slide-source">
+      {{ render_featured_rotator_card("special_cards/issue-75.md", index=2) }}
     </div>
   </template>
 </div>
