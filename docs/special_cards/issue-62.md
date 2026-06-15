@@ -1,0 +1,53 @@
+---
+title: "PERLA – The PERovskite Photovoltaics Living Archive on NOMAD"
+submitter: "Ahmed Mansour"
+institution: "Humboldt-Universität zu Berlin, Friedrich Schiller University Jena"
+country: "DE"
+research_field: "Photovoltaics"
+methodology_type: "Experimental"
+description: "PERLA transforms perovskite solar cell literature into a living, continuously updated knowledge resource. Through AI-powered data extraction and FAIR data management workflows, PERLA converts scientific publications into structured, reusable data accessible through NOMAD. Researchers can explore emerging trends, perform large-scale analyses, and accelerate innovation in next-generation photovoltaic technologies."
+submission_date: "2026-06-03"
+technique: "AI-Assisted Literature Mining"
+coauthors:
+  - "Sherjeel Shabih"
+  - "Hampus Näsström"
+  - "Sharat Patil"
+  - "Asmin Askin"
+  - "Keely Dodd-Clements"
+  - "Jessica Helisa Hautrive Rossato"
+  - "Hugo Gajardoni de Lemos"
+  - "Yuxin Liu"
+  - "Florian Mathies"
+  - "Natalia Maticiuc"
+  - "Rico Meitzner"
+  - "Edgar Nandayapa"
+  - "Juan José Patiño López"
+  - "Yaru Wang"
+  - "Lauri Himanen"
+  - "Eva Unger"
+  - "T. Jesper Jacobsson"
+  - "José A. Márquez"
+  - "Kevin Maik Jablonka"
+image_path: "assets/images/cards/PERLA.png"
+entry_link: "https://nomad-lab.eu/prod/v1/staging/gui/search/perovskite-solar-cells-database"
+keywords:
+  - "Perovskites"
+  - "Solar cells"
+  - "Energy materials"
+  - "Materials database"
+  - "Large language models"
+  - "Data extraction"
+nomad_resource_links:
+  - "https://nomad-lab.eu/prod/v1/staging/gui/search/perovskite-solar-cells-database"
+publication_references:
+  - "https://doi.org/10.48550/arXiv.2601.17807"
+repository_references:
+  - "https://github.com/FAIRmat-NFDI/perla"
+  - "https://github.com/lamalab-org/perla-extract"
+  - "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database"
+funding_references:
+  - "Deutsche Forschungsgemeinschaft (DFG) - Project 460197019"
+  - "Horizon Europe - Project 101122288"
+media_urls:
+  - "https://fairmat-nfdi.github.io/perla/"
+---

@@ -1,0 +1,34 @@
+---
+title: "The Catalysis App"
+submitter: "Julia Schumann"
+institution: "Humboldt-Universität zu Berlin, Fritz-Haber-Institut der Max-Planck-Gesellschaft"
+country: "DE"
+research_field: "Catalysis"
+methodology_type: "Experimental"
+description: "The Catalysis App allows researchers to explore heterogeneous catalysis datasets available in NOMAD through an interactive interface. Users can search and filter data by parameters such as reactants and products, synthesis method, catalyst form, and reaction conditions. The Catalysis App supports the exchange of catalysis data and lays important groundwork for future AI-driven analytics."
+submission_date: "2026-05-08"
+coauthors:
+  - "Hampus Näsström"
+  - "Michael Götte"
+  - "Lauri Himanen"
+  - "Abdulrhman Moshanta"
+  - "Markus Scheidgen"
+  - "José A. Márquez"
+  - "Claudia Draxl"
+  - "Annette Trunschke"
+image_path: "assets/images/cards/catalysis_app.jpg"
+publication_references:
+  - "https://doi.org/10.1038/s41929-026-01508-9"
+keywords:
+  - "Catalysis research"
+  - "Machine-readable data"
+  - "NOMAD app"
+entry_name: "NOMAD Catalysis App"
+nomad_resource_links:
+  - "https://nomad-lab.eu/prod/v1/gui/search/heterogeneouscatalyst"
+repository_references:
+  - "https://github.com/FAIRmat-NFDI/nomad-catalysis-plugin"
+funding_references:
+  - "Deutsche Forschungsgemeinschaft (DFG) - Project 460197019"
+data_size: "2000 entries <"
+---
